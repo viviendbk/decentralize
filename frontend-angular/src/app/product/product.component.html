@@ -1,0 +1,17 @@
+<!-- products.component.html -->
+<h2>Products</h2>
+<div *ngFor="let product of products">
+  <p>{{ product.name }} - {{ product.description }} - Price: {{ product.price }}</p>
+  <button (click)="addToCart(product)">Add to Cart</button>
+</div>
+
+<h2>Cart</h2>
+<div *ngIf="cartItems.length > 0; else emptyCart">
+  <div *ngFor="let cartItem of cartItems">
+    <p>{{ cartItem.product.name }} - Quantity: {{ cartItem.quantity }} - Price: {{ cartItem.price }}</p>
+  </div>
+  <p>Total Price: {{ totalPrice }}</p>
+</div>
+<ng-template #emptyCart>
+  <p>Cart is empty.</p>
+</ng-template>
