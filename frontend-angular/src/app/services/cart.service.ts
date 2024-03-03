@@ -1,7 +1,7 @@
-// cart.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CartData } from '../interfaces/cart-data.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,8 @@ export class CartService {
 
   constructor(private http: HttpClient) { }
 
-  getCartData(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/1`);
+  getCartData(): Observable<CartData> {
+    return this.http.get<CartData>(this.apiUrl); // Assuming the API returns CartData directly
   }
 
   addToCart(product: any): Observable<any> {

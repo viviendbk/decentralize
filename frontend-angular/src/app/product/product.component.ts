@@ -1,31 +1,8 @@
-// products.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../services/product.service';
 import { CartService } from '../services/cart.service';
+import { CartData } from '../interfaces/cart-data.interface'; // Import the CartData interface
 
-
-
-// cart-data.interface.ts
-interface CartData {
-  cartItems: CartItem[];
-  totalPrice: number;
-}
-
-interface CartItem {
-  productId: number;
-  quantity: number;
-  price: string;
-  product: Product;
-}
-
-interface Product {
-  productId: number;
-  productName: string;
-  description: string;
-  price: number;
-  category: string;
-  stock: string;
-}
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -50,7 +27,7 @@ export class ProductComponent implements OnInit {
 
   getCartData(): void {
     this.cartService.getCartData()
-      .subscribe(cartData => {
+      .subscribe((cartData: CartData) => { // Define type for cartData
         this.cartItems = cartData.cartItems;
         this.totalPrice = cartData.totalPrice;
       });
