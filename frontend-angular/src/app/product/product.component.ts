@@ -12,12 +12,14 @@ export class ProductComponent implements OnInit {
   products: any[] = [];
   cartItems: any[] = [];
   totalPrice: number = 0;
+  selectedUserId: number = 1; // Default selected user ID
+  userIds: number[] = [1, 2, 3]; // Array of user IDs
 
   constructor(private productService: ProductService, private cartService: CartService) { }
 
   ngOnInit(): void {
     this.getProducts();
-    this.getCartData();
+    this.getCartData(this.selectedUserId);
   }
 
   getProducts(): void {
@@ -25,18 +27,29 @@ export class ProductComponent implements OnInit {
       .subscribe(products => this.products = products);
   }
 
-  getCartData(): void {
-    this.cartService.getCartData()
-      .subscribe((cartData: CartData) => { // Define type for cartData
+  getCartData(userId: number): void {
+    this.cartService.getCartData(userId)
+      .subscribe((cartData: CartData) => {
         this.cartItems = cartData.cartItems;
         this.totalPrice = cartData.totalPrice;
       });
   }
 
   addToCart(product: any): void {
-    this.cartService.addToCart(product)
+    this.cartService.addToCart(this.selectedUserId, product)
       .subscribe(() => {
-        this.getCartData(); // Refresh cart data after adding
+        this.getCartData(this.selectedUserId); // Refresh cart data after adding
       });
+  }
+
+  removeCartItem(productId: number): void {
+    this.cartService.removeCartItem(this.selectedUserId, productId)
+      .subscribe(() => {
+        this.getCartData(this.selectedUserId); // Refresh cart data after removing the item
+      });
+  }
+
+  onUserIdChange(): void {
+    this.getCartData(this.selectedUserId); // Refresh cart data when user ID changes
   }
 }

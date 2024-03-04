@@ -11,13 +11,17 @@ export class CartService {
 
   constructor(private http: HttpClient) { }
 
-  getCartData(): Observable<CartData> {
-    return this.http.get<CartData>(this.apiUrl); // Assuming the API returns CartData directly
+  getCartData(userId: number): Observable<CartData> {
+    return this.http.get<CartData>(`${this.apiUrl}/${userId}`); // Pass userId as part of the URL
   }
 
-  addToCart(product: any): Observable<any> {
+  addToCart(userId: number, product: any): Observable<any> {
     // Assuming your API accepts product ID and quantity
     const cartItem = { productId: product.productId, quantity: 1 };
-    return this.http.post<any>(`${this.apiUrl}/${product.userId}`, cartItem);
+    return this.http.post<any>(`${this.apiUrl}/${userId}`, cartItem); // Include userId in the URL
+  }
+
+  removeCartItem(userId: number, productId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${userId}/item/${productId}`); // Include userId in the URL
   }
 }

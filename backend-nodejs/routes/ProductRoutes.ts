@@ -6,6 +6,7 @@ const productRoutes = express.Router();
 // GET /products
 productRoutes.get('/products', async (req: Request, res: Response) => {
     try {
+        console.log('productroutes')
         const { category, inStock } = req.query;
         let whereClause: any = {};
 
